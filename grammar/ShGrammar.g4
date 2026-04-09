@@ -1,4 +1,25 @@
-lexer grammar ShLexer;
+grammar ShGrammar;
+
+program : statement* EOF ;
+statement
+    : varDecl
+    | exprStmt
+    ;
+varDecl : VAR ID COLON type ASSIGN expr SEMI ;
+exprStmt : expr SEMI ;
+type : INT_T | FLOAT_T ;
+
+expr
+: LPAREN expr RPAREN            
+| expr (MUL | DIV) expr         
+| expr (PLUS | MINUS) expr    
+| expr (GT | LT) expr
+| TRUE
+| FALSE
+| NUMBER                      
+| ID                           
+;
+
 
 VAR :'متغير';
 IF :'لو' | 'إذا' | 'اذا';
