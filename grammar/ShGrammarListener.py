@@ -26,12 +26,57 @@ class ShGrammarListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by ShGrammarParser#block.
+    def enterBlock(self, ctx:ShGrammarParser.BlockContext):
+        pass
+
+    # Exit a parse tree produced by ShGrammarParser#block.
+    def exitBlock(self, ctx:ShGrammarParser.BlockContext):
+        pass
+
+
     # Enter a parse tree produced by ShGrammarParser#varDecl.
     def enterVarDecl(self, ctx:ShGrammarParser.VarDeclContext):
         pass
 
     # Exit a parse tree produced by ShGrammarParser#varDecl.
     def exitVarDecl(self, ctx:ShGrammarParser.VarDeclContext):
+        pass
+
+
+    # Enter a parse tree produced by ShGrammarParser#assignStmt.
+    def enterAssignStmt(self, ctx:ShGrammarParser.AssignStmtContext):
+        pass
+
+    # Exit a parse tree produced by ShGrammarParser#assignStmt.
+    def exitAssignStmt(self, ctx:ShGrammarParser.AssignStmtContext):
+        pass
+
+
+    # Enter a parse tree produced by ShGrammarParser#printStmt.
+    def enterPrintStmt(self, ctx:ShGrammarParser.PrintStmtContext):
+        pass
+
+    # Exit a parse tree produced by ShGrammarParser#printStmt.
+    def exitPrintStmt(self, ctx:ShGrammarParser.PrintStmtContext):
+        pass
+
+
+    # Enter a parse tree produced by ShGrammarParser#ifStmt.
+    def enterIfStmt(self, ctx:ShGrammarParser.IfStmtContext):
+        pass
+
+    # Exit a parse tree produced by ShGrammarParser#ifStmt.
+    def exitIfStmt(self, ctx:ShGrammarParser.IfStmtContext):
+        pass
+
+
+    # Enter a parse tree produced by ShGrammarParser#whileStmt.
+    def enterWhileStmt(self, ctx:ShGrammarParser.WhileStmtContext):
+        pass
+
+    # Exit a parse tree produced by ShGrammarParser#whileStmt.
+    def exitWhileStmt(self, ctx:ShGrammarParser.WhileStmtContext):
         pass
 
 

@@ -27,6 +27,16 @@ public interface ShGrammarListener extends ParseTreeListener {
 	 */
 	void exitStatement(ShGrammarParser.StatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ShGrammarParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void enterBlock(ShGrammarParser.BlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ShGrammarParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void exitBlock(ShGrammarParser.BlockContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ShGrammarParser#varDecl}.
 	 * @param ctx the parse tree
 	 */
@@ -36,6 +46,46 @@ public interface ShGrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitVarDecl(ShGrammarParser.VarDeclContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ShGrammarParser#assignStmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterAssignStmt(ShGrammarParser.AssignStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ShGrammarParser#assignStmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitAssignStmt(ShGrammarParser.AssignStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ShGrammarParser#printStmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrintStmt(ShGrammarParser.PrintStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ShGrammarParser#printStmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrintStmt(ShGrammarParser.PrintStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ShGrammarParser#ifStmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterIfStmt(ShGrammarParser.IfStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ShGrammarParser#ifStmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitIfStmt(ShGrammarParser.IfStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ShGrammarParser#whileStmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterWhileStmt(ShGrammarParser.WhileStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ShGrammarParser#whileStmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitWhileStmt(ShGrammarParser.WhileStmtContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ShGrammarParser#exprStmt}.
 	 * @param ctx the parse tree

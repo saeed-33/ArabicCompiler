@@ -1,19 +1,41 @@
 grammar ShGrammar;
+program: statement* EOF;
 
-program : statement* EOF ;
+// تحديث قاعدة الجمل لتشمل الإسناد، الطباعة، الشرط، والتكرار
 statement
     : varDecl
+    | assignStmt
+    | printStmt
+    | ifStmt
+    | whileStmt
     | exprStmt
     ;
-varDecl : VAR ID COLON type ASSIGN expr SEMI ;
-exprStmt : expr SEMI ;
-type : INT_T | FLOAT_T ;
+
+// الكتلة البرمجية (Scope)
+block: LBRACE statement* RBRACE;
+
+varDecl : VAR ID COLON type ASSIGN expr SEMI;
+
+assignStmt : ID ASSIGN expr SEMI;
+
+printStmt : PRINT LPAREN expr RPAREN SEMI;
+
+// جملة (إذا) مع إجبار الكتلة البرمجية، و (وإلا) كخيار
+ifStmt: IF LPAREN expr RPAREN block (ELSE block)?;
+
+// حلقة (طالما)
+whileStmt : WHILE LPAREN expr RPAREN block;
+
+exprStmt : expr SEMI;
+
+type : INT_T | FLOAT_T;
+
 
 expr
 : LPAREN expr RPAREN            
 | expr (MUL | DIV) expr         
 | expr (PLUS | MINUS) expr    
-| expr (GT | LT) expr
+| expr (GT | LT|'=='|'!='|'<='|'>=') expr
 | TRUE
 | FALSE
 | NUMBER                      
