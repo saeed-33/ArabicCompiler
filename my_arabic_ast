@@ -1,0 +1,51 @@
+// Arabic Compiler AST
+digraph {
+	node [fillcolor=lightblue fontname=Arial shape=box style="rounded, filled"]
+	2686201555856 [label=Program]
+	2686201556144 [label="VarDecl
+س : صحيح" fillcolor=lightgreen]
+	2686201557632 [label="Number
+10.0" fillcolor=white]
+	2686201556144 -> 2686201557632 [label=expr]
+	2686201555856 -> 2686201556144 [label=""]
+	2686201558064 [label=While fillcolor=orange]
+	2686201558880 [label="BinOp
+'>'" fillcolor=lightyellow]
+	2686201556960 [label="ID
+س" fillcolor=white]
+	2686201558880 -> 2686201556960 [label=left]
+	2686201557872 [label="Number
+0.0" fillcolor=white]
+	2686201558880 -> 2686201557872 [label=right]
+	2686201558064 -> 2686201558880 [label=condition]
+	2686201556672 [label=Block]
+	2686201725952 [label=If fillcolor=orange]
+	2686201726000 [label="BinOp
+'=='" fillcolor=lightyellow]
+	2686201725088 [label="ID
+س" fillcolor=white]
+	2686201726000 -> 2686201725088 [label=left]
+	2686201724992 [label="Number
+5.0" fillcolor=white]
+	2686201726000 -> 2686201724992 [label=right]
+	2686201725952 -> 2686201726000 [label=condition]
+	2686201726336 [label=Block]
+	2686201725952 -> 2686201726336 [label=then]
+	2686201726576 [label=Block]
+	2686201727056 [label="Assign
+س" fillcolor=lightgreen]
+	2686201727008 [label="BinOp
+'-'" fillcolor=lightyellow]
+	2686201726624 [label="ID
+س" fillcolor=white]
+	2686201727008 -> 2686201726624 [label=left]
+	2686201726912 [label="Number
+1.0" fillcolor=white]
+	2686201727008 -> 2686201726912 [label=right]
+	2686201727056 -> 2686201727008 [label=expr]
+	2686201726576 -> 2686201727056 [label=""]
+	2686201725952 -> 2686201726576 [label=else]
+	2686201556672 -> 2686201725952 [label=""]
+	2686201558064 -> 2686201556672 [label=body]
+	2686201555856 -> 2686201558064 [label=""]
+}
