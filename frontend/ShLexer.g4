@@ -23,3 +23,9 @@ LBRACE :'{';
 RBRACE :'}';
 COLON :':';
 SEMI :'؛';
+
+fragment DIGIT : [0-9] | [\u0660-\u0669] ;
+NUMBER  : DIGIT+ ('.' DIGIT+)? ;
+ID      : [\u0621-\u064A] [\u0621-\u064A\u0660-\u06690-9_]* ;
+WS      : [ \t\r\n]+ -> skip ;
+LINE_COMMENT : '//' ~[\r\n]* -> skip ;
