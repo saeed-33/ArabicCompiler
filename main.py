@@ -3,40 +3,34 @@ from antlr4 import *
 from frontend.ShGrammarLexer import ShGrammarLexer
 from frontend.ShGrammarParser import ShGrammarParser
 from frontend.ast_builder import ASTBuilderVisitor
+from semantic.semantic_analyzer import SemanticAnalyzerVisitor
 from semantic.semantic_visitor import SemanticVisitor
 
 def main():
-    # 1. قراءة الملف وبناء شجرة التحليل الإعرابي بواسطة ANTLR
-    try:
-        input_stream = FileStream('program.arabic', encoding='utf-8')
-    except FileNotFoundError:
-        print("خطأ: الملف 'program.arabic' غير موجود.")
-        sys.exit(1)
-
+    # 1. قراءة وبناء الشجرة (Front-End)
+    input_stream = FileStream('program.arabic', encoding='utf-8')
     lexer = ShGrammarLexer(input_stream)
-    token_stream = CommonTokenStream(lexer)
-    parser = ShGrammarParser(token_stream)
+    parser = ShGrammarParser(CommonTokenStream(lexer))
     parse_tree = parser.program()
-
-    # 2. بناء شجرة الـ AST المخصصة
+   
+    # 2. تحويل شجرة ANTLR إلى AST مخصصة
     builder = ASTBuilderVisitor()
     ast = builder.visit(parse_tree)
-    
-    print("==================================================")
-    print("--- جاري التحليل الدلالي (فحص النطاقات والمتغيرات) ---")
-    print("==================================================")
+    print("--- جاري التحليل الداللي (Type Checking) ---")
 
-    # 3. تمرير الزائر الدلالي على الشجرة لفحص النطاقات والرموز
-    semantic_visitor = SemanticVisitor()
-    ast.accept(semantic_visitor)
-
-    # 4. طباعة تقرير الأخطاء الهندسي الموحد
-    if semantic_visitor.errors:
-        print("\n❌ تم العثور على أخطاء دلالية:")
-        for err in semantic_visitor.errors:
-            print(f"   {err}")
+    # 3. التحليل الداللي (التحقق من الأنواع والنطاقات)
+    analyzer = SemanticAnalyzerVisitor()
+    ast.accept(analyzer) # إرسال الزائر للشجرة
+   
+    # 4. طباعة تقرير الأخطاء
+    if len(analyzer.errors) > 0:
+        print("\nتم العثور على الأخطاء التالية:")
+        for err in analyzer.errors:
+            print(" ❌ " + err)
+        
+        print("\nفشلت عملية الترجمة. الرجاء إصلاح الأخطاء أعلاه.")
     else:
-        print("\n✅ الكود سليم دلالياً! جميع المتغيرات والنطاقات صحيحة.")
+        print("✅ الكود سليم دلالياً ونحوياً 100%. جاهز لتوليد كود الآلة (IR)!")
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
