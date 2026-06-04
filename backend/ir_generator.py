@@ -100,13 +100,29 @@ class IRGeneratorVisitor(ASTVisitor):
             return self.builder.mul(left_val, right_val, name="multmp")
         elif node.op == '/':
             return self.builder.sdiv(left_val, right_val, name="divtmp")
+        elif node.op == '<':
+            return self.builder.icmp_signed('<',left_val,right_val, name="Lttemp")
+        elif node.op == '>':
+            return self.builder.icmp_signed('>',left_val,right_val, name="Gttemp")
         else:
             raise NotImplementedError(f"العملية الرياضية '{node.op}' غير مدعومة حالياً.")
 
     # ---------------------------------------------------------
     # باقي الدوال ستظل فارغة للأيام القادمة
     # ---------------------------------------------------------
-    def visit_PrintNode(self, node): pass
-    def visit_IfNode(self, node): pass
+    def visit_PrintNode(self, node:IfNode): pass
+    
+    def visit_IfNode(self, node): 
+        cond_val = self.visit(node.condition)
+        current_function = self.builder.function
+        then_bb = current_function.append_basic_block("then")
+        merge_bb = current_function.append_basic_block("ifcont")
+        self.builder.cbranch(cond_val,then_bb,merge_bb)
+        self.builder.position_at_end(then_bb)
+        self.visit(node.then_block)
+        self.builder.branch(merge_bb)
+        
+        self.builder.position_at_end(merge_bb)
+        return None
     def visit_WhileNode(self, node): pass
     def visit_BlockNode(self, node): pass

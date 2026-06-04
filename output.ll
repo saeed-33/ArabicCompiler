@@ -10,5 +10,11 @@ entry:
   %"س_val" = load i32, i32* %"س"
   %"addtmp" = add i32 %"س_val", 1
   store i32 %"addtmp", i32* %"س"
+  %"س_val.1" = load i32, i32* %"س"
+  %"Lttemp" = icmp slt i32 %"س_val.1", 6
+  br i1 %"Lttemp", label %"then", label %"ifcont"
+then:
+  br label %"ifcont"
+ifcont:
   ret i32 0
 }

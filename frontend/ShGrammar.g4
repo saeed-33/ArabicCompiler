@@ -31,7 +31,7 @@ exprStmt : expr SEMI;
 type : INT_T | FLOAT_T;
 
 
-expr
+    expr
 : LPAREN expr RPAREN            
 | expr (MUL | DIV) expr         
 | expr (PLUS | MINUS) expr    
