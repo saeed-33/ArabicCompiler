@@ -1,51 +1,51 @@
 // Arabic Compiler AST
 digraph {
 	node [fillcolor=lightblue fontname=Arial shape=box style="rounded, filled"]
-	2686201555856 [label=Program]
-	2686201556144 [label="VarDecl
+	2043146797168 [label=Program]
+	2043148102784 [label="VarDecl
 س : صحيح" fillcolor=lightgreen]
-	2686201557632 [label="Number
+	2043148103744 [label="Number
 10.0" fillcolor=white]
-	2686201556144 -> 2686201557632 [label=expr]
-	2686201555856 -> 2686201556144 [label=""]
-	2686201558064 [label=While fillcolor=orange]
-	2686201558880 [label="BinOp
+	2043148102784 -> 2043148103744 [label=expr]
+	2043146797168 -> 2043148102784 [label=""]
+	2043148104320 [label=While fillcolor=orange]
+	2043148103936 [label="BinOp
 '>'" fillcolor=lightyellow]
-	2686201556960 [label="ID
+	2043148103840 [label="ID
 س" fillcolor=white]
-	2686201558880 -> 2686201556960 [label=left]
-	2686201557872 [label="Number
+	2043148103936 -> 2043148103840 [label=left]
+	2043148102112 [label="Number
 0.0" fillcolor=white]
-	2686201558880 -> 2686201557872 [label=right]
-	2686201558064 -> 2686201558880 [label=condition]
-	2686201556672 [label=Block]
-	2686201725952 [label=If fillcolor=orange]
-	2686201726000 [label="BinOp
+	2043148103936 -> 2043148102112 [label=right]
+	2043148104320 -> 2043148103936 [label=condition]
+	2043148104368 [label=Block]
+	2043148271776 [label=If fillcolor=orange]
+	2043148272352 [label="BinOp
 '=='" fillcolor=lightyellow]
-	2686201725088 [label="ID
+	2043148103648 [label="ID
 س" fillcolor=white]
-	2686201726000 -> 2686201725088 [label=left]
-	2686201724992 [label="Number
+	2043148272352 -> 2043148103648 [label=left]
+	2043148104752 [label="Number
 5.0" fillcolor=white]
-	2686201726000 -> 2686201724992 [label=right]
-	2686201725952 -> 2686201726000 [label=condition]
-	2686201726336 [label=Block]
-	2686201725952 -> 2686201726336 [label=then]
-	2686201726576 [label=Block]
-	2686201727056 [label="Assign
+	2043148272352 -> 2043148104752 [label=right]
+	2043148271776 -> 2043148272352 [label=condition]
+	2043148272208 [label=Block]
+	2043148271776 -> 2043148272208 [label=then]
+	2043148272688 [label=Block]
+	2043148273312 [label="Assign
 س" fillcolor=lightgreen]
-	2686201727008 [label="BinOp
+	2043148273264 [label="BinOp
 '-'" fillcolor=lightyellow]
-	2686201726624 [label="ID
+	2043148273024 [label="ID
 س" fillcolor=white]
-	2686201727008 -> 2686201726624 [label=left]
-	2686201726912 [label="Number
+	2043148273264 -> 2043148273024 [label=left]
+	2043148273120 [label="Number
 1.0" fillcolor=white]
-	2686201727008 -> 2686201726912 [label=right]
-	2686201727056 -> 2686201727008 [label=expr]
-	2686201726576 -> 2686201727056 [label=""]
-	2686201725952 -> 2686201726576 [label=else]
-	2686201556672 -> 2686201725952 [label=""]
-	2686201558064 -> 2686201556672 [label=body]
-	2686201555856 -> 2686201558064 [label=""]
+	2043148273264 -> 2043148273120 [label=right]
+	2043148273312 -> 2043148273264 [label=expr]
+	2043148272688 -> 2043148273312 [label=""]
+	2043148271776 -> 2043148272688 [label=else]
+	2043148104368 -> 2043148271776 [label=""]
+	2043148104320 -> 2043148104368 [label=body]
+	2043146797168 -> 2043148104320 [label=""]
 }
