@@ -1,7 +1,7 @@
 import sys
 from antlr4 import *
-from ShGrammarLexer import ShGrammarLexer
-from ShGrammarParser import ShGrammarParser
+from frontend.ShGrammarLexer import ShGrammarLexer
+from frontend.ShGrammarParser import ShGrammarParser
 from custom_visitor import CustomASTVisitor
 
 def main():

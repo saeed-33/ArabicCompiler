@@ -34,3 +34,6 @@ class ASTVisitor(ABC):
 
     @abstractmethod
     def visit_PrintNode(self, node): pass
+
+    @abstractmethod
+    def visit_StringNode(self, node): pass

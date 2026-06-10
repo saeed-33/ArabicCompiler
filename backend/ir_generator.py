@@ -1,3 +1,5 @@
+from platform import node
+
 import llvmlite.ir as ir
 from ast_tree.nodes import *
 from ast_tree.visitor_interface import ASTVisitor
@@ -19,6 +21,17 @@ class IRGeneratorVisitor(ASTVisitor):
         
         # 5. قاموس جديد لربط اسم المتغير بمؤشره في الذاكرة (Pointer)
         self.symbol_table = {}
+
+        self.loop_stack = []
+        # 1. تعريف نوع مؤشر البايتات للنصوص (i8) #
+        self.byte_ptr_type = ir.IntType(8).as_pointer()
+        
+        # 2. إعلان توقيع دالة printf الخارجية: تقبل مؤشر نص وعدد متغير من المعاملات var_arg=True( #
+        printf_type = ir.FunctionType (ir.IntType (32), [self.byte_ptr_type], var_arg=True)
+        self.printf_func = ir.Function(self.module, printf_type, name="printf")
+        
+        # 3. عداد لتسمية الثوابت النصية العالمية بشكل فريد #
+        self.string_counter = 0
 
     def finish_generation(self):
         """تضيف أمر الإرجاع (ret) بقيمة 0 لإعلام نظام التشغيل بنجاح التنفيذ."""
@@ -112,17 +125,106 @@ class IRGeneratorVisitor(ASTVisitor):
     # ---------------------------------------------------------
     def visit_PrintNode(self, node:IfNode): pass
     
-    def visit_IfNode(self, node): 
+    def visit_IfNode (self, node):
         cond_val = self.visit(node.condition)
-        current_function = self.builder.function
-        then_bb = current_function.append_basic_block("then")
-        merge_bb = current_function.append_basic_block("ifcont")
-        self.builder.cbranch(cond_val,then_bb,merge_bb)
-        self.builder.position_at_end(then_bb)
-        self.visit(node.then_block)
-        self.builder.branch(merge_bb)
-        
-        self.builder.position_at_end(merge_bb)
-        return None
-    def visit_WhileNode(self, node): pass
+        if cond_val is None:
+        # 10 # التقييم العميق حساب قيمة الشرط (11) يجب أن ينتج قيمة منطقية)
+            raise Exception (". خطأ هندسي تعذر حساب قيمة الشرط لجملة (إذا)")
+    # 20 # الحصول على الدالة الحالية التي تكتب بداخلها
+        current_func = self.builder.function
+    # 3 # حجز الكتل الأساسية في الذاكرة (Basic Blocks)
+        then_bb = current_func.append_basic_block("then")
+        merge_bb = current_func.append_basic_block("merge")
+    # التحقق مما إذا كان هناك مسار (وإلا) #
+        if node.else_block:
+            else_bb = current_func.append_basic_block("else")
+        # وإلا اذهب لـ else قفزة مشروطة : إذا صح اذهب لـ then #
+            self.builder.cbranch(cond_val, then_bb, else_bb) 
+        else: 
+        # مباشرة merge وإلا تخطى واذهب لـ then قفزة مشروطة : إذا صح اذهب لـ # 
+            self.builder.cbranch (cond_val, then_bb, merge_bb) 
+    # (then) نقل القلم وبناء كتلة التحقق .4 # 
+        self.builder.position_at_end(then_bb) 
+        self.visit(node.then_block) # زيارة محتوى جملة إذا 
+    # برمجة دفاعية: لا نقفز للالتحام إلا إذا كانت الستلة غير مختومة مسبقاً بقانون المنهي # 
+        if not self.builder.block.is_terminated: 
+            self.builder.branch (merge_bb) 
+    # إن وجدت (else) نقل القلم وبناء كتلة النفي 5 # 
+        if node.else_block: 
+            self.builder.position_at_end(else_bb) 
+            self.visit(node.else_block) 
+        # برمجة دفاعية للمسار الثاني # 
+            if not self.builder.block.is_terminated: 
+                self.builder.branch (merge_bb) 
+    # استئناف البرنامج: وضع القلم في كتلة الالتحام ليكتب الكود القادم فيها 60 # 
+        self.builder.position_at_end (merge_bb)
+    def visit_WhileNode (self, node:WhileNode):
+        current_func = self.builder.function
+    # 1. حجز الكتل الثلاث في الذاكرة #
+        cond_bb = current_func.append_basic_block("while_cond")
+        body_bb = current_func.append_basic_block("while_body")
+        end_bb = current_func.append_basic_block("while_end")
+    # 2. القفز من الكتلة الحالية للدخول إلى رأس الحلقة #
+        self.builder.branch (cond_bb)
+    # 3. برمجة كتلة الشرط #
+        self.builder.position_at_end (cond_bb)
+        cond_val = self.visit(node.condition)
+        if cond_val is None:
+            raise Exception (". خطأ هندسي تعذر تقييم شرط الحلقة" )
+    # قفزة مشروطة: إذا صح استمر للمحتوى، وإلا اخرج للنهاية #
+        self.builder.cbranch (cond_val, body_bb, end_bb)
+    # 4. برمجة كتلة المحتوى (مع إدارة المكدس) #
+        self.builder.position_at_end (body_bb)
+    # دفع معلومات الحلقة الحالية للمكدس قبل زيارة المحتوى #
+        self.loop_stack.append((cond_bb, end_bb))
+        self.visit(node.body) # زيارة كل الأوامر داخل الحلقة
+    # سحب معلومات الحلقة بعد الانتهاء #
+        self.loop_stack.pop()
+    # 5. العودة لتقييم الشرط مجدداً : (Back-Edge) الحافة الخلفية #
+        if not self.builder.block.is_terminated:
+           self.builder.branch (cond_bb)
+    # 6. استئناف البرنامج خارج الحلقة #
+        self.builder.position_at_end (end_bb)
     def visit_BlockNode(self, node): pass
+    def visit_BreakNode (self, node):
+        if not self.loop_stack:
+            raise Exception (". خطأ نحوي تم استخدام أمر اكسر خارج حلقة تكرار")
+    # استخراج كتلة النهاية للحلقة الأعمق والنشطة حالياً #
+        _, end_bb = self.loop_stack[-1]
+        self.builder.branch (end_bb)
+
+    def visit_ContinueNode (self, node):
+        if not self.loop_stack:
+            raise Exception (". خطأ نحوي تم استخدام أمر تجاوز خارج حلقة تكرار")
+    # استخراج كتلة الشرط للحلقة الأعمق والنشطة حالياً #
+        cond_bb, _ = self.loop_stack[-1]
+        self.builder.branch (cond_bb)
+    def create_global_string (self, string_text: str):
+    # 1. إضافة سطر جديد وإنهاء النص بالصفر (C-style string) #
+        string_text = string_text + '\n\0'
+    # 2. تحويل النص العربي إلى بايتات مشفرة بـ UTF-8 #
+        encoded_bytes = bytearray (string_text.encode('utf-8'))
+    # 3. تحديد نوع المصفوفة [i8 x عدد البايثات] #
+        array_type = ir.ArrayType (ir.IntType (8), len (encoded_bytes))
+    # 4. إنشاء الثابت في النطاق العالمي (Global Variable) #
+        global_name = f".str_{self.string_counter}"
+        self.string_counter += 1
+        global_str = ir.GlobalVariable (self.module, array_type, name=global_name)
+        global_str.linkage = 'private'
+        global_str.global_constant = True
+        global_str.initializer = ir.Constant (array_type, encoded_bytes)
+        return global_str
+    def visit_PrintStringNode (self, node):
+    # 1. إنشاء النص كـ ثابت عالمي في الذاكرة #
+        global_str = self.create_global_string (node.text)
+    # 2. استخدام تعليمة GEP (GetElementPtr) للوصول للعنصر رقم 0 في المصفوفة #
+    # نمرر صفرين: الأول للدخول داخل المؤشر، والثاني لاختيار الحرف الأول #
+        zero = ir.Constant(ir.IntType (32), 0)
+        str_ptr = self.builder.gep(global_str, [zero, zero], inbounds=True, name="str_ptr")
+    # 3. استدعاء دالة printf وتمرير المؤشر إليها #
+        self.builder.call(self.printf_func, [str_ptr], name="print_call")
+    def visit_StringNode(self, node):
+    # إزالة علامات التنصيص الزائدة من أطراف النص إن وجدت
+        clean_text = node.value.strip('"')
+    # استدعاء الدالة المساعدة لإنشاء النص كـ ثابت عالمي في الذاكرة
+        return self.create_global_string(clean_text)

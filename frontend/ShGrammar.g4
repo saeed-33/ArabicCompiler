@@ -38,7 +38,8 @@ type : INT_T | FLOAT_T;
 | expr (GT | LT|'=='|'!='|'<='|'>=') expr
 | TRUE
 | FALSE
-| NUMBER                      
+| NUMBER   
+| STRING                   
 | ID                           
 ;
 
@@ -52,6 +53,7 @@ TRUE :'صح';
 FALSE :'غلط';
 INT_T :'صحيح';
 FLOAT_T :'عشري';
+STRING : '"' (~['\r\n"\\] | '\\' .)* '"' ;
 
 ASSIGN :'=';
 PLUS :'+';
