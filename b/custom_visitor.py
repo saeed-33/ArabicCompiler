@@ -1,5 +1,5 @@
-from ShGrammarVisitor import ShGrammarVisitor
-from ShGrammarParser import ShGrammarParser
+from frontend.ShGrammarVisitor import ShGrammarVisitor
+from frontend.ShGrammarParser import ShGrammarParser
 from ast_nodes import *
 
 class CustomASTVisitor (ShGrammarVisitor):

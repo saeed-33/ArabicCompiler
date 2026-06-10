@@ -1,9 +1,9 @@
-# Generated from ShGrammar.g4 by ANTLR 4.13.2
+# Generated from frontend/ShGrammar.g4 by ANTLR 4.13.2
 from antlr4 import *
 if "." in __name__:
     from .ShGrammarParser import ShGrammarParser
 else:
-    from ShGrammarParser import ShGrammarParser
+    from frontend.ShGrammarParser import ShGrammarParser
 
 # This class defines a complete generic visitor for a parse tree produced by ShGrammarParser.
 

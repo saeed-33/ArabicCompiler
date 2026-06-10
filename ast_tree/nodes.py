@@ -92,3 +92,9 @@ class IdNode(ASTNode):
     
     def accept(self, visitor):
         return visitor.visit_IdNode(self)
+
+@dataclass(kw_only=True)
+class StringNode(ASTNode):
+    def __init__(self, value, line):
+        self.value = value
+        self.line = line

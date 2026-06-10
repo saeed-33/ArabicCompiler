@@ -3,7 +3,7 @@ from antlr4 import *
 if "." in __name__:
     from .ShGrammarParser import ShGrammarParser
 else:
-    from ShGrammarParser import ShGrammarParser
+    from frontend.ShGrammarParser import ShGrammarParser
 
 # This class defines a complete listener for a parse tree produced by ShGrammarParser.
 class ShGrammarListener(ParseTreeListener):
