@@ -1,6 +1,8 @@
 from platform import node
 
 import llvmlite.ir as ir
+import llvmlite.binding as llvm
+
 from ast_tree.nodes import *
 from ast_tree.visitor_interface import ASTVisitor
 
@@ -8,7 +10,9 @@ class IRGeneratorVisitor(ASTVisitor):
     def __init__(self):
         # 1. إنشاء الوحدة (Module): الحاوية الكبرى التي تمثل الملف بأكمله
         self.module = ir.Module(name="arabic_compiler_module")
-         
+        
+        default_triple = llvm.get_default_triple()
+        self.module.triple = default_triple
         # 1. Byte pointer type (i8*)
         self.byte_ptr_type = ir.IntType(8).as_pointer()
 
