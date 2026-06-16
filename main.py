@@ -14,7 +14,6 @@ def main():
     
     builder = ASTBuilderVisitor()
     ast = builder.visit(parse_tree)
-    
     print("2. جاري توليد كود LLVM IR...")
     ir_generator = IRGeneratorVisitor()
     
@@ -22,7 +21,7 @@ def main():
     llvm_ir_code = ir_generator.generate(ast)
     
     # حفظ الكود في ملف نصي
-    output_file = "output_17.ll"
+    output_file = "output_18.ll"
     with open(output_file, "w", encoding="utf-8") as f:
         f.write(llvm_ir_code)
         

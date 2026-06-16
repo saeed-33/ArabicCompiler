@@ -10,47 +10,47 @@ else:
 
 def serializedATN():
     return [
-        4,1,32,124,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
+        4,1,34,125,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
         6,2,7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,1,0,5,0,
         28,8,0,10,0,12,0,31,9,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
         3,1,43,8,1,1,2,1,2,5,2,47,8,2,10,2,12,2,50,9,2,1,2,1,2,1,3,1,3,1,
         3,1,3,1,3,1,3,1,3,1,3,1,4,1,4,1,4,1,4,1,4,1,5,1,5,1,5,1,6,1,6,1,
         6,1,7,1,7,1,7,1,7,1,7,1,7,1,8,1,8,1,8,1,8,1,8,1,8,1,8,3,8,86,8,8,
         1,9,1,9,1,9,1,9,1,9,1,9,1,10,1,10,1,10,1,11,1,11,1,12,1,12,1,12,
-        1,12,1,12,1,12,1,12,1,12,1,12,3,12,108,8,12,1,12,1,12,1,12,1,12,
-        1,12,1,12,1,12,1,12,1,12,5,12,119,8,12,10,12,12,12,122,9,12,1,12,
-        0,1,24,13,0,2,4,6,8,10,12,14,16,18,20,22,24,0,4,1,0,12,13,1,0,19,
-        20,1,0,17,18,2,0,1,4,21,22,127,0,29,1,0,0,0,2,42,1,0,0,0,4,44,1,
-        0,0,0,6,53,1,0,0,0,8,61,1,0,0,0,10,66,1,0,0,0,12,69,1,0,0,0,14,72,
-        1,0,0,0,16,78,1,0,0,0,18,87,1,0,0,0,20,93,1,0,0,0,22,96,1,0,0,0,
-        24,107,1,0,0,0,26,28,3,2,1,0,27,26,1,0,0,0,28,31,1,0,0,0,29,27,1,
-        0,0,0,29,30,1,0,0,0,30,32,1,0,0,0,31,29,1,0,0,0,32,33,5,0,0,1,33,
-        1,1,0,0,0,34,43,3,6,3,0,35,43,3,8,4,0,36,43,3,14,7,0,37,43,3,16,
-        8,0,38,43,3,18,9,0,39,43,3,10,5,0,40,43,3,12,6,0,41,43,3,20,10,0,
-        42,34,1,0,0,0,42,35,1,0,0,0,42,36,1,0,0,0,42,37,1,0,0,0,42,38,1,
-        0,0,0,42,39,1,0,0,0,42,40,1,0,0,0,42,41,1,0,0,0,43,3,1,0,0,0,44,
-        48,5,25,0,0,45,47,3,2,1,0,46,45,1,0,0,0,47,50,1,0,0,0,48,46,1,0,
-        0,0,48,49,1,0,0,0,49,51,1,0,0,0,50,48,1,0,0,0,51,52,5,26,0,0,52,
-        5,1,0,0,0,53,54,5,5,0,0,54,55,5,30,0,0,55,56,5,27,0,0,56,57,3,22,
-        11,0,57,58,5,16,0,0,58,59,3,24,12,0,59,60,5,28,0,0,60,7,1,0,0,0,
-        61,62,5,30,0,0,62,63,5,16,0,0,63,64,3,24,12,0,64,65,5,28,0,0,65,
-        9,1,0,0,0,66,67,5,14,0,0,67,68,5,28,0,0,68,11,1,0,0,0,69,70,5,15,
-        0,0,70,71,5,28,0,0,71,13,1,0,0,0,72,73,5,9,0,0,73,74,5,23,0,0,74,
-        75,3,24,12,0,75,76,5,24,0,0,76,77,5,28,0,0,77,15,1,0,0,0,78,79,5,
-        6,0,0,79,80,5,23,0,0,80,81,3,24,12,0,81,82,5,24,0,0,82,85,3,4,2,
+        1,12,1,12,1,12,1,12,1,12,1,12,1,12,3,12,109,8,12,1,12,1,12,1,12,
+        1,12,1,12,1,12,1,12,1,12,1,12,5,12,120,8,12,10,12,12,12,123,9,12,
+        1,12,0,1,24,13,0,2,4,6,8,10,12,14,16,18,20,22,24,0,4,1,0,12,14,1,
+        0,20,21,1,0,18,19,2,0,1,4,22,23,129,0,29,1,0,0,0,2,42,1,0,0,0,4,
+        44,1,0,0,0,6,53,1,0,0,0,8,61,1,0,0,0,10,66,1,0,0,0,12,69,1,0,0,0,
+        14,72,1,0,0,0,16,78,1,0,0,0,18,87,1,0,0,0,20,93,1,0,0,0,22,96,1,
+        0,0,0,24,108,1,0,0,0,26,28,3,2,1,0,27,26,1,0,0,0,28,31,1,0,0,0,29,
+        27,1,0,0,0,29,30,1,0,0,0,30,32,1,0,0,0,31,29,1,0,0,0,32,33,5,0,0,
+        1,33,1,1,0,0,0,34,43,3,6,3,0,35,43,3,8,4,0,36,43,3,14,7,0,37,43,
+        3,16,8,0,38,43,3,18,9,0,39,43,3,10,5,0,40,43,3,12,6,0,41,43,3,20,
+        10,0,42,34,1,0,0,0,42,35,1,0,0,0,42,36,1,0,0,0,42,37,1,0,0,0,42,
+        38,1,0,0,0,42,39,1,0,0,0,42,40,1,0,0,0,42,41,1,0,0,0,43,3,1,0,0,
+        0,44,48,5,26,0,0,45,47,3,2,1,0,46,45,1,0,0,0,47,50,1,0,0,0,48,46,
+        1,0,0,0,48,49,1,0,0,0,49,51,1,0,0,0,50,48,1,0,0,0,51,52,5,27,0,0,
+        52,5,1,0,0,0,53,54,5,5,0,0,54,55,5,32,0,0,55,56,5,28,0,0,56,57,3,
+        22,11,0,57,58,5,17,0,0,58,59,3,24,12,0,59,60,5,29,0,0,60,7,1,0,0,
+        0,61,62,5,32,0,0,62,63,5,17,0,0,63,64,3,24,12,0,64,65,5,29,0,0,65,
+        9,1,0,0,0,66,67,5,15,0,0,67,68,5,29,0,0,68,11,1,0,0,0,69,70,5,16,
+        0,0,70,71,5,29,0,0,71,13,1,0,0,0,72,73,5,9,0,0,73,74,5,24,0,0,74,
+        75,3,24,12,0,75,76,5,25,0,0,76,77,5,29,0,0,77,15,1,0,0,0,78,79,5,
+        6,0,0,79,80,5,24,0,0,80,81,3,24,12,0,81,82,5,25,0,0,82,85,3,4,2,
         0,83,84,5,7,0,0,84,86,3,4,2,0,85,83,1,0,0,0,85,86,1,0,0,0,86,17,
-        1,0,0,0,87,88,5,8,0,0,88,89,5,23,0,0,89,90,3,24,12,0,90,91,5,24,
-        0,0,91,92,3,4,2,0,92,19,1,0,0,0,93,94,3,24,12,0,94,95,5,28,0,0,95,
+        1,0,0,0,87,88,5,8,0,0,88,89,5,24,0,0,89,90,3,24,12,0,90,91,5,25,
+        0,0,91,92,3,4,2,0,92,19,1,0,0,0,93,94,3,24,12,0,94,95,5,29,0,0,95,
         21,1,0,0,0,96,97,7,0,0,0,97,23,1,0,0,0,98,99,6,12,-1,0,99,100,5,
-        23,0,0,100,101,3,24,12,0,101,102,5,24,0,0,102,108,1,0,0,0,103,108,
-        5,10,0,0,104,108,5,11,0,0,105,108,5,29,0,0,106,108,5,30,0,0,107,
-        98,1,0,0,0,107,103,1,0,0,0,107,104,1,0,0,0,107,105,1,0,0,0,107,106,
-        1,0,0,0,108,120,1,0,0,0,109,110,10,7,0,0,110,111,7,1,0,0,111,119,
-        3,24,12,8,112,113,10,6,0,0,113,114,7,2,0,0,114,119,3,24,12,7,115,
-        116,10,5,0,0,116,117,7,3,0,0,117,119,3,24,12,6,118,109,1,0,0,0,118,
-        112,1,0,0,0,118,115,1,0,0,0,119,122,1,0,0,0,120,118,1,0,0,0,120,
-        121,1,0,0,0,121,25,1,0,0,0,122,120,1,0,0,0,7,29,42,48,85,107,118,
-        120
+        24,0,0,100,101,3,24,12,0,101,102,5,25,0,0,102,109,1,0,0,0,103,109,
+        5,10,0,0,104,109,5,11,0,0,105,109,5,30,0,0,106,109,5,31,0,0,107,
+        109,5,32,0,0,108,98,1,0,0,0,108,103,1,0,0,0,108,104,1,0,0,0,108,
+        105,1,0,0,0,108,106,1,0,0,0,108,107,1,0,0,0,109,121,1,0,0,0,110,
+        111,10,8,0,0,111,112,7,1,0,0,112,120,3,24,12,9,113,114,10,7,0,0,
+        114,115,7,2,0,0,115,120,3,24,12,8,116,117,10,6,0,0,117,118,7,3,0,
+        0,118,120,3,24,12,7,119,110,1,0,0,0,119,113,1,0,0,0,119,116,1,0,
+        0,0,120,123,1,0,0,0,121,119,1,0,0,0,121,122,1,0,0,0,122,25,1,0,0,
+        0,123,121,1,0,0,0,7,29,42,48,85,108,119,121
     ]
 
 class ShGrammarParser ( Parser ):
@@ -67,17 +67,17 @@ class ShGrammarParser ( Parser ):
                      "<INVALID>", "<INVALID>", "'\\u0628\\u064A\\u0646\\u0645\\u0627'", 
                      "'\\u0627\\u0643\\u062A\\u0628'", "'\\u0635\\u062D'", 
                      "'\\u063A\\u0644\\u0637'", "'\\u0635\\u062D\\u064A\\u062D'", 
-                     "'\\u0639\\u0634\\u0631\\u064A'", "'\\u0627\\u0643\\u0633\\u0631'", 
-                     "'\\u062A\\u062C\\u0627\\u0648\\u0632'", "'='", "'+'", 
-                     "'-'", "'*'", "'/'", "'>'", "'<'", "'('", "')'", "'{'", 
-                     "'}'", "':'", "'\\u061B'" ]
+                     "'\\u0639\\u0634\\u0631\\u064A'", "'\\u0646\\u0635'", 
+                     "'\\u0627\\u0643\\u0633\\u0631'", "'\\u062A\\u062C\\u0627\\u0648\\u0632'", 
+                     "'='", "'+'", "'-'", "'*'", "'/'", "'>'", "'<'", "'('", 
+                     "')'", "'{'", "'}'", "':'", "'\\u061B'" ]
 
     symbolicNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "VAR", "IF", "ELSE", "WHILE", "PRINT", 
-                      "TRUE", "FALSE", "INT_T", "FLOAT_T", "BREAK", "CONTINUE", 
-                      "ASSIGN", "PLUS", "MINUS", "MUL", "DIV", "GT", "LT", 
-                      "LPAREN", "RPAREN", "LBRACE", "RBRACE", "COLON", "SEMI", 
-                      "NUMBER", "ID", "WS", "LINE_COMMENT" ]
+                      "TRUE", "FALSE", "INT_T", "FLOAT_T", "STRING_T", "BREAK", 
+                      "CONTINUE", "ASSIGN", "PLUS", "MINUS", "MUL", "DIV", 
+                      "GT", "LT", "LPAREN", "RPAREN", "LBRACE", "RBRACE", 
+                      "COLON", "SEMI", "NUMBER", "STRING", "ID", "WS", "LINE_COMMENT" ]
 
     RULE_program = 0
     RULE_statement = 1
@@ -111,25 +111,27 @@ class ShGrammarParser ( Parser ):
     FALSE=11
     INT_T=12
     FLOAT_T=13
-    BREAK=14
-    CONTINUE=15
-    ASSIGN=16
-    PLUS=17
-    MINUS=18
-    MUL=19
-    DIV=20
-    GT=21
-    LT=22
-    LPAREN=23
-    RPAREN=24
-    LBRACE=25
-    RBRACE=26
-    COLON=27
-    SEMI=28
-    NUMBER=29
-    ID=30
-    WS=31
-    LINE_COMMENT=32
+    STRING_T=14
+    BREAK=15
+    CONTINUE=16
+    ASSIGN=17
+    PLUS=18
+    MINUS=19
+    MUL=20
+    DIV=21
+    GT=22
+    LT=23
+    LPAREN=24
+    RPAREN=25
+    LBRACE=26
+    RBRACE=27
+    COLON=28
+    SEMI=29
+    NUMBER=30
+    STRING=31
+    ID=32
+    WS=33
+    LINE_COMMENT=34
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
@@ -187,7 +189,7 @@ class ShGrammarParser ( Parser ):
             self.state = 29
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while (((_la) & ~0x3f) == 0 and ((1 << _la) & 1619054432) != 0):
+            while (((_la) & ~0x3f) == 0 and ((1 << _la) & 7533072224) != 0):
                 self.state = 26
                 self.statement()
                 self.state = 31
@@ -382,7 +384,7 @@ class ShGrammarParser ( Parser ):
             self.state = 48
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while (((_la) & ~0x3f) == 0 and ((1 << _la) & 1619054432) != 0):
+            while (((_la) & ~0x3f) == 0 and ((1 << _la) & 7533072224) != 0):
                 self.state = 45
                 self.statement()
                 self.state = 50
@@ -935,6 +937,9 @@ class ShGrammarParser ( Parser ):
         def FLOAT_T(self):
             return self.getToken(ShGrammarParser.FLOAT_T, 0)
 
+        def STRING_T(self):
+            return self.getToken(ShGrammarParser.STRING_T, 0)
+
         def getRuleIndex(self):
             return ShGrammarParser.RULE_type
 
@@ -964,7 +969,7 @@ class ShGrammarParser ( Parser ):
             self.enterOuterAlt(localctx, 1)
             self.state = 96
             _la = self._input.LA(1)
-            if not(_la==12 or _la==13):
+            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 28672) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -1006,6 +1011,9 @@ class ShGrammarParser ( Parser ):
 
         def NUMBER(self):
             return self.getToken(ShGrammarParser.NUMBER, 0)
+
+        def STRING(self):
+            return self.getToken(ShGrammarParser.STRING, 0)
 
         def ID(self):
             return self.getToken(ShGrammarParser.ID, 0)
@@ -1057,10 +1065,10 @@ class ShGrammarParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 107
+            self.state = 108
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [23]:
+            if token in [24]:
                 self.state = 99
                 self.match(ShGrammarParser.LPAREN)
                 self.state = 100
@@ -1076,19 +1084,23 @@ class ShGrammarParser ( Parser ):
                 self.state = 104
                 self.match(ShGrammarParser.FALSE)
                 pass
-            elif token in [29]:
+            elif token in [30]:
                 self.state = 105
                 self.match(ShGrammarParser.NUMBER)
                 pass
-            elif token in [30]:
+            elif token in [31]:
                 self.state = 106
+                self.match(ShGrammarParser.STRING)
+                pass
+            elif token in [32]:
+                self.state = 107
                 self.match(ShGrammarParser.ID)
                 pass
             else:
                 raise NoViableAltException(self)
 
             self._ctx.stop = self._input.LT(-1)
-            self.state = 120
+            self.state = 121
             self._errHandler.sync(self)
             _alt = self._interp.adaptivePredict(self._input,6,self._ctx)
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
@@ -1096,65 +1108,65 @@ class ShGrammarParser ( Parser ):
                     if self._parseListeners is not None:
                         self.triggerExitRuleEvent()
                     _prevctx = localctx
-                    self.state = 118
+                    self.state = 119
                     self._errHandler.sync(self)
                     la_ = self._interp.adaptivePredict(self._input,5,self._ctx)
                     if la_ == 1:
                         localctx = ShGrammarParser.ExprContext(self, _parentctx, _parentState)
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expr)
-                        self.state = 109
-                        if not self.precpred(self._ctx, 7):
-                            from antlr4.error.Errors import FailedPredicateException
-                            raise FailedPredicateException(self, "self.precpred(self._ctx, 7)")
                         self.state = 110
+                        if not self.precpred(self._ctx, 8):
+                            from antlr4.error.Errors import FailedPredicateException
+                            raise FailedPredicateException(self, "self.precpred(self._ctx, 8)")
+                        self.state = 111
                         _la = self._input.LA(1)
-                        if not(_la==19 or _la==20):
+                        if not(_la==20 or _la==21):
                             self._errHandler.recoverInline(self)
                         else:
                             self._errHandler.reportMatch(self)
                             self.consume()
-                        self.state = 111
-                        self.expr(8)
+                        self.state = 112
+                        self.expr(9)
                         pass
 
                     elif la_ == 2:
                         localctx = ShGrammarParser.ExprContext(self, _parentctx, _parentState)
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expr)
-                        self.state = 112
-                        if not self.precpred(self._ctx, 6):
-                            from antlr4.error.Errors import FailedPredicateException
-                            raise FailedPredicateException(self, "self.precpred(self._ctx, 6)")
                         self.state = 113
+                        if not self.precpred(self._ctx, 7):
+                            from antlr4.error.Errors import FailedPredicateException
+                            raise FailedPredicateException(self, "self.precpred(self._ctx, 7)")
+                        self.state = 114
                         _la = self._input.LA(1)
-                        if not(_la==17 or _la==18):
+                        if not(_la==18 or _la==19):
                             self._errHandler.recoverInline(self)
                         else:
                             self._errHandler.reportMatch(self)
                             self.consume()
-                        self.state = 114
-                        self.expr(7)
+                        self.state = 115
+                        self.expr(8)
                         pass
 
                     elif la_ == 3:
                         localctx = ShGrammarParser.ExprContext(self, _parentctx, _parentState)
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expr)
-                        self.state = 115
-                        if not self.precpred(self._ctx, 5):
-                            from antlr4.error.Errors import FailedPredicateException
-                            raise FailedPredicateException(self, "self.precpred(self._ctx, 5)")
                         self.state = 116
+                        if not self.precpred(self._ctx, 6):
+                            from antlr4.error.Errors import FailedPredicateException
+                            raise FailedPredicateException(self, "self.precpred(self._ctx, 6)")
+                        self.state = 117
                         _la = self._input.LA(1)
-                        if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 6291486) != 0)):
+                        if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 12582942) != 0)):
                             self._errHandler.recoverInline(self)
                         else:
                             self._errHandler.reportMatch(self)
                             self.consume()
-                        self.state = 117
-                        self.expr(6)
+                        self.state = 118
+                        self.expr(7)
                         pass
 
              
-                self.state = 122
+                self.state = 123
                 self._errHandler.sync(self)
                 _alt = self._interp.adaptivePredict(self._input,6,self._ctx)
 
@@ -1180,15 +1192,15 @@ class ShGrammarParser ( Parser ):
 
     def expr_sempred(self, localctx:ExprContext, predIndex:int):
             if predIndex == 0:
-                return self.precpred(self._ctx, 7)
+                return self.precpred(self._ctx, 8)
          
 
             if predIndex == 1:
-                return self.precpred(self._ctx, 6)
+                return self.precpred(self._ctx, 7)
          
 
             if predIndex == 2:
-                return self.precpred(self._ctx, 5)
+                return self.precpred(self._ctx, 6)
          
 
 

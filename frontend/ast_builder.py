@@ -78,6 +78,12 @@ class ASTBuilderVisitor(ShGrammarVisitor):
             value = float(ctx.NUMBER().getText())
             node = NumberNode(value=value)
             return self.set_metadata(node, ctx)
+        
+        
+        elif ctx.STRING():
+            value = ctx.STRING().getText().strip('"')  # إزالة علامات الاقتباس
+            node = StringNode(value=value)
+            return self.set_metadata(node, ctx)
             
         # حالة 3: استدعاء متغير داخل التعبير (مثل استخدام 'س' داخل معادلة)
         elif ctx.ID():
@@ -91,7 +97,7 @@ class ASTBuilderVisitor(ShGrammarVisitor):
         
     def visitPrintStmt(self, ctx: ShGrammarParser.PrintStmtContext):
         value_node = self.visit(ctx.expr())
-        return PrintNode (expr=value_node)
+        return PrintNode (text=value_node.value)
     def visitBreakStmt(self, ctx:ShGrammarParser.BreakStmtContext):
         return BreakNode(line=ctx.start.line, column=ctx.start.column)
     def visitContinueStmt(self, ctx:ShGrammarParser.ContinueStmtContext):

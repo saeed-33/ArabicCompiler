@@ -26,3 +26,5 @@ then:
 ifcont:
   br label %"while_cond"
 }
+
+declare i32 @"printf"(i8* %".1", ...)
