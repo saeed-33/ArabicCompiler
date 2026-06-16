@@ -92,3 +92,14 @@ class IdNode(ASTNode):
     
     def accept(self, visitor):
         return visitor.visit_IdNode(self)
+
+
+@dataclass(kw_only=True)
+class BreakNode(ASTNode):
+    def accept(self, visitor):
+        return visitor.visit_BreakNode(self)
+
+@dataclass(kw_only=True)
+class ContinueNode(ASTNode):
+    def accept(self, visitor):
+        return visitor.visit_ContinueNode(self)

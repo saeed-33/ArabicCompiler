@@ -40,6 +40,18 @@ public interface ShGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAssignStmt(ShGrammarParser.AssignStmtContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ShGrammarParser#breakStmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBreakStmt(ShGrammarParser.BreakStmtContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ShGrammarParser#continueStmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitContinueStmt(ShGrammarParser.ContinueStmtContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ShGrammarParser#printStmt}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

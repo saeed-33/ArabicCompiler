@@ -53,6 +53,24 @@ class ShGrammarListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by ShGrammarParser#breakStmt.
+    def enterBreakStmt(self, ctx:ShGrammarParser.BreakStmtContext):
+        pass
+
+    # Exit a parse tree produced by ShGrammarParser#breakStmt.
+    def exitBreakStmt(self, ctx:ShGrammarParser.BreakStmtContext):
+        pass
+
+
+    # Enter a parse tree produced by ShGrammarParser#continueStmt.
+    def enterContinueStmt(self, ctx:ShGrammarParser.ContinueStmtContext):
+        pass
+
+    # Exit a parse tree produced by ShGrammarParser#continueStmt.
+    def exitContinueStmt(self, ctx:ShGrammarParser.ContinueStmtContext):
+        pass
+
+
     # Enter a parse tree produced by ShGrammarParser#printStmt.
     def enterPrintStmt(self, ctx:ShGrammarParser.PrintStmtContext):
         pass
