@@ -8,7 +8,25 @@ class IRGeneratorVisitor(ASTVisitor):
     def __init__(self):
         # 1. إنشاء الوحدة (Module): الحاوية الكبرى التي تمثل الملف بأكمله
         self.module = ir.Module(name="arabic_compiler_module")
-        
+         
+        # 1. Byte pointer type (i8*)
+        self.byte_ptr_type = ir.IntType(8).as_pointer()
+
+        # 2. Declare printf
+        printf_type = ir.FunctionType(
+            ir.IntType(32),
+            [self.byte_ptr_type],
+            var_arg=True
+        )
+
+        self.printf_func = ir.Function(
+            self.module,
+            printf_type,
+            name="printf"
+        )
+
+        # 3. Counter for global string constants
+        self.string_counter = 0
         # 2. إعداد دالة نقطة الإدخال (Main Function)
         func_type = ir.FunctionType(ir.IntType(32), [])
         self.main_func = ir.Function(self.module, func_type, name="main")
@@ -23,6 +41,40 @@ class IRGeneratorVisitor(ASTVisitor):
         self.symbol_table = {}
         
         self.loop_stack = [] 
+       
+        
+    
+    def create_global_string(self, string_text: str):
+        # 1. Add newline and null terminator
+        string_text = string_text + '\n\0'
+
+        # 2. Encode Arabic text as UTF-8 bytes
+        encoded_bytes = bytearray(string_text.encode('utf-8'))
+
+        # 3. Create array type [N x i8]
+        array_type = ir.ArrayType(
+            ir.IntType(8),
+            len(encoded_bytes)
+        )
+
+        # 4. Create global constant
+        global_name = f".str_{self.string_counter}"
+        self.string_counter += 1
+
+        global_str = ir.GlobalVariable(
+            self.module,
+            array_type,
+            name=global_name
+        )
+
+        global_str.linkage = 'private'
+        global_str.global_constant = True
+        global_str.initializer = ir.Constant(
+            array_type,
+            encoded_bytes
+        )
+
+        return global_str
 
     def finish_generation(self):
         """تضيف أمر الإرجاع (ret) بقيمة 0 لإعلام نظام التشغيل بنجاح التنفيذ."""
@@ -119,7 +171,27 @@ class IRGeneratorVisitor(ASTVisitor):
     # ---------------------------------------------------------
     # باقي الدوال ستظل فارغة للأيام القادمة
     # ---------------------------------------------------------
-    def visit_PrintNode(self, node:IfNode): pass
+    def visit_PrintNode(self, node:PrintNode):
+        # 1. Create global string constant
+        global_str = self.create_global_string(node.text)
+
+        # 2. Convert array to pointer using GEP
+        zero = ir.Constant(ir.IntType(32), 0)
+
+        str_ptr = self.builder.gep(
+            global_str,
+            [zero, zero],
+            inbounds=True,
+            name="str_ptr"
+        )
+
+        # 3. Call printf
+        self.builder.call(
+            self.printf_func,
+            [str_ptr],
+            name="print_call"
+        )
+        
     
     def visit_IfNode(self, node): 
         cond_val = self.visit(node.condition)
@@ -203,7 +275,6 @@ class IRGeneratorVisitor(ASTVisitor):
     def visit_BreakNode(self, node:BreakNode):
         if not self.loop_stack:
             raise Exception("خطأ نحوي: تم استخدام أمر 'اكسر' خارج حلقة تكرار")
-        print("break node visited")
          # Get end block of current loop
         _, end_bb = self.loop_stack[-1]
         self.builder.branch(end_bb)
