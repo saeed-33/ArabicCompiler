@@ -23,6 +23,8 @@ class ASTBuilderVisitor(ShGrammarVisitor):
         elif ctx.assignStmt(): return self.visit(ctx.assignStmt())
         # إذا كان لديك جملة طباعة بالملف الأساسي يمكنك إلغاء تعليق السطر التالي:
         elif ctx.printStmt(): return self.visit(ctx.printStmt())
+        elif ctx.breakStmt(): return self.visit(ctx.breakStmt())
+        elif ctx.continueStmt(): return self.visit(ctx.continueStmt())
 
     def visitVarDecl(self, ctx: ShGrammarParser.VarDeclContext):
         name = ctx.ID().getText()
@@ -90,3 +92,7 @@ class ASTBuilderVisitor(ShGrammarVisitor):
     def visitPrintStmt(self, ctx: ShGrammarParser.PrintStmtContext):
         value_node = self.visit(ctx.expr())
         return PrintNode (expr=value_node)
+    def visitBreakStmt(self, ctx:ShGrammarParser.BreakStmtContext):
+        return BreakNode(line=ctx.start.line, column=ctx.start.column)
+    def visitContinueStmt(self, ctx:ShGrammarParser.ContinueStmtContext):
+        return ContinueNode(line=ctx.start.line, column=ctx.start.column)

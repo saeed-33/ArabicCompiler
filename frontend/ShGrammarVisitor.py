@@ -34,6 +34,16 @@ class ShGrammarVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by ShGrammarParser#breakStmt.
+    def visitBreakStmt(self, ctx:ShGrammarParser.BreakStmtContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by ShGrammarParser#continueStmt.
+    def visitContinueStmt(self, ctx:ShGrammarParser.ContinueStmtContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by ShGrammarParser#printStmt.
     def visitPrintStmt(self, ctx:ShGrammarParser.PrintStmtContext):
         return self.visitChildren(ctx)

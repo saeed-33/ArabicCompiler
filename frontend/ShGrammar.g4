@@ -8,6 +8,8 @@ statement
     | printStmt
     | ifStmt
     | whileStmt
+    | breakStmt
+    | continueStmt
     | exprStmt
     ;
 
@@ -17,6 +19,8 @@ block: LBRACE statement* RBRACE;
 varDecl : VAR ID COLON type ASSIGN expr SEMI;
 
 assignStmt : ID ASSIGN expr SEMI;
+breakStmt : BREAK SEMI;
+continueStmt : CONTINUE SEMI;
 
 printStmt : PRINT LPAREN expr RPAREN SEMI;
 
@@ -52,6 +56,8 @@ TRUE :'صح';
 FALSE :'غلط';
 INT_T :'صحيح';
 FLOAT_T :'عشري';
+BREAK :'اكسر';
+CONTINUE :'تجاوز';
 
 ASSIGN :'=';
 PLUS :'+';

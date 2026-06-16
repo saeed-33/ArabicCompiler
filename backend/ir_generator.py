@@ -1,3 +1,5 @@
+from platform import node
+
 import llvmlite.ir as ir
 from ast_tree.nodes import *
 from ast_tree.visitor_interface import ASTVisitor
@@ -19,6 +21,8 @@ class IRGeneratorVisitor(ASTVisitor):
         
         # 5. قاموس جديد لربط اسم المتغير بمؤشره في الذاكرة (Pointer)
         self.symbol_table = {}
+        
+        self.loop_stack = [] 
 
     def finish_generation(self):
         """تضيف أمر الإرجاع (ret) بقيمة 0 لإعلام نظام التشغيل بنجاح التنفيذ."""
@@ -104,6 +108,11 @@ class IRGeneratorVisitor(ASTVisitor):
             return self.builder.icmp_signed('<',left_val,right_val, name="Lttemp")
         elif node.op == '>':
             return self.builder.icmp_signed('>',left_val,right_val, name="Gttemp")
+        elif node.op == '==':
+            return self.builder.icmp_signed('==',left_val,right_val, name="Eqtemp")
+        elif node.op == '!=':
+            return self.builder.icmp_signed('!=',left_val,right_val, name="Neqtemp")
+        
         else:
             raise NotImplementedError(f"العملية الرياضية '{node.op}' غير مدعومة حالياً.")
 
@@ -117,12 +126,84 @@ class IRGeneratorVisitor(ASTVisitor):
         current_function = self.builder.function
         then_bb = current_function.append_basic_block("then")
         merge_bb = current_function.append_basic_block("ifcont")
-        self.builder.cbranch(cond_val,then_bb,merge_bb)
+        if node.else_block:
+            else_bb = current_function.append_basic_block("else")
+            self.builder.cbranch(cond_val, then_bb, else_bb)
+        else:
+            self.builder.cbranch(cond_val,then_bb,merge_bb)
         self.builder.position_at_end(then_bb)
         self.visit(node.then_block)
-        self.builder.branch(merge_bb)
+        if not self.builder.block.is_terminated:
+            self.builder.branch(merge_bb)
+        if node.else_block:
+            self.builder.position_at_end(else_bb)
+            self.visit(node.else_block)
+            if not self.builder.block.is_terminated:
+                self.builder.branch(merge_bb)
         
         self.builder.position_at_end(merge_bb)
-        return None
-    def visit_WhileNode(self, node): pass
-    def visit_BlockNode(self, node): pass
+        
+    
+    
+    
+    def visit_WhileNode(self, node): 
+        current_func = self.builder.function
+
+    # 1. Create the three blocks
+        cond_bb = current_func.append_basic_block("while_cond")
+        body_bb = current_func.append_basic_block("while_body")
+        end_bb = current_func.append_basic_block("while_end")
+
+    # 2. Jump to loop condition
+        self.builder.branch(cond_bb)
+
+    # 3. Generate condition block
+        self.builder.position_at_end(cond_bb)
+
+        cond_val = self.visit(node.condition)
+        if cond_val is None:
+            raise Exception("خطأ هندسي: تعذر تقييم شرط الحلقة.")
+
+        # Conditional branch
+        self.builder.cbranch(cond_val, body_bb, end_bb)
+
+        # 4. Generate body block
+        self.builder.position_at_end(body_bb)
+
+    # Push current loop information
+        self.loop_stack.append((cond_bb, end_bb))
+
+    # Visit loop body
+        self.visit(node.body)
+
+    # Pop loop information
+        self.loop_stack.pop()
+
+    # 5. Back-edge to condition
+        if not self.builder.block.is_terminated:
+            self.builder.branch(cond_bb)
+
+    # 6. Continue after loop
+        self.builder.position_at_end(end_bb)
+        
+        
+    def visit_BlockNode(self, node:BlockNode): 
+        for stmt in node.statements:
+            self.visit(stmt)
+            
+            
+    def visit_ContinueNode(self, node:ContinueNode):
+        if not self.loop_stack:
+            raise Exception("خطأ نحوي: تم استخدام أمر 'تجاوز' خارج حلقة تكرار")
+
+    # Get condition block of current loop
+        cond_bb, _ = self.loop_stack[-1]
+        self.builder.branch(cond_bb)
+        
+    def visit_BreakNode(self, node:BreakNode):
+        if not self.loop_stack:
+            raise Exception("خطأ نحوي: تم استخدام أمر 'اكسر' خارج حلقة تكرار")
+        print("break node visited")
+         # Get end block of current loop
+        _, end_bb = self.loop_stack[-1]
+        self.builder.branch(end_bb)

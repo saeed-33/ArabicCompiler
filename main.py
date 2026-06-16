@@ -22,7 +22,7 @@ def main():
     llvm_ir_code = ir_generator.generate(ast)
     
     # حفظ الكود في ملف نصي
-    output_file = "output.ll"
+    output_file = "output_17.ll"
     with open(output_file, "w", encoding="utf-8") as f:
         f.write(llvm_ir_code)
         
