@@ -28,6 +28,9 @@ class IRGeneratorVisitor(ASTVisitor):
             printf_type,
             name="printf"
         )
+        
+        panic_type = ir.FunctionType(ir.VoidType(), [])
+        self.panic_func = ir.Function(self.module, panic_type, name="panic_div_zero")
 
         # 3. Counter for global string constants
         self.string_counter = 0
@@ -47,7 +50,25 @@ class IRGeneratorVisitor(ASTVisitor):
         self.loop_stack = [] 
        
         
-    
+    def emit_runtime_trap(self, is_danger_i1, panic_function):
+        current_func = self.builder.function
+        
+        # 1. إنشاء كتلتين: واحدة للانهيار، وواحدة لاستمرار البرنامج (المنطقة الآمنة)
+        panic_bb = current_func.append_basic_block("panic_block")
+        continue_bb = current_func.append_basic_block("math_block")
+        
+        # 2. القفز المشروط: إذا كان هناك خطر، اقفز لكتلة الذعر، وإلا أكمل للمنطقة الآمنة
+        self.builder.cbranch(is_danger_i1, panic_bb, continue_bb)
+        
+        # 3. برمجة كتلة الذعر (Panic Block)
+        self.builder.position_at_end(panic_bb)
+        # استدعاء دالة الطباعة وإنهاء البرنامج
+        self.builder.call(panic_function, [])
+        # تعليمة حاسمة تخبر المحسن أن البرنامج يتوقف هنا نهائيًا
+        self.builder.unreachable()
+        
+        # 4. نقل القلم إلى المنطقة الآمنة ليستأنف الزائر عمله الطبيعي
+        self.builder.position_at_end(continue_bb)
     def create_global_string(self, string_text: str):
         # 1. Add newline and null terminator
         string_text = string_text + '\n\0'
@@ -159,6 +180,18 @@ class IRGeneratorVisitor(ASTVisitor):
         elif node.op == '*':
             return self.builder.mul(left_val, right_val, name="multmp")
         elif node.op == '/':
+            # --- بداية زرع فخ الحماية ---
+            # 1. إنشاء ثابت قيمته صفر للمقارنة
+            zero_val = ir.Constant(ir.IntType(32), 0)
+            
+            # 2. فحص المقام: هل يساوي صفرًا؟ (يرجع i1)
+            is_zero = self.builder.icmp_signed('==', right_val, zero_val, name="is_zero_trap")
+            
+            # 3. استدعاء الدالة المساعدة لزرع كتل الفخ وإيقاف البرنامج إن لزم الأمر
+            self.emit_runtime_trap(is_zero, self.panic_func)
+            # --- نهاية الفخ (القلم الآن موجود بأمان داخل كتلة math_block) ---
+            
+            # إجراء عملية القسمة بأمان تام
             return self.builder.sdiv(left_val, right_val, name="divtmp")
         elif node.op == '<':
             return self.builder.icmp_signed('<',left_val,right_val, name="Lttemp")
