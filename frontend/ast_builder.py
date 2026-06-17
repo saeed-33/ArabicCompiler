@@ -97,7 +97,7 @@ class ASTBuilderVisitor(ShGrammarVisitor):
         
     def visitPrintStmt(self, ctx: ShGrammarParser.PrintStmtContext):
         value_node = self.visit(ctx.expr())
-        return PrintNode (text=value_node.value)
+        return PrintNode(expr=value_node) 
     def visitBreakStmt(self, ctx:ShGrammarParser.BreakStmtContext):
         return BreakNode(line=ctx.start.line, column=ctx.start.column)
     def visitContinueStmt(self, ctx:ShGrammarParser.ContinueStmtContext):

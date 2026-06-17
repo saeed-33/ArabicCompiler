@@ -57,7 +57,7 @@ class AssignNode(ASTNode):
 
 @dataclass(kw_only=True)
 class PrintNode(ASTNode):
-    text: str
+    expr: ASTNode
     
     def accept(self, visitor):
         return visitor.visit_PrintNode(self)

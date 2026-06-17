@@ -69,6 +69,7 @@ class IRGeneratorVisitor(ASTVisitor):
         
         # 4. نقل القلم إلى المنطقة الآمنة ليستأنف الزائر عمله الطبيعي
         self.builder.position_at_end(continue_bb)
+        
     def create_global_string(self, string_text: str):
         # 1. Add newline and null terminator
         string_text = string_text + '\n\0'
@@ -210,24 +211,41 @@ class IRGeneratorVisitor(ASTVisitor):
     # ---------------------------------------------------------
     def visit_PrintNode(self, node:PrintNode):
         # 1. Create global string constant
-        global_str = self.create_global_string(node.text)
-
-        # 2. Convert array to pointer using GEP
         zero = ir.Constant(ir.IntType(32), 0)
+        if  isinstance(node.expr, StringNode):
+            global_str = self.create_global_string(node.expr.value)
+                # 2. Convert array to pointer using GEP
+           
 
-        str_ptr = self.builder.gep(
-            global_str,
-            [zero, zero],
-            inbounds=True,
-            name="str_ptr"
-        )
+            str_ptr = self.builder.gep(
+                global_str,
+                [zero, zero],
+                inbounds=True,
+                name="str_ptr"
+            )
+                # 3. Call printf
+            self.builder.call(
+                self.printf_func,
+                [str_ptr],
+                name="print_call"
+            )
+        else:
+            global_str = self.create_global_string("%d")
+            str_ptr = self.builder.gep(
+                global_str,
+                [zero, zero],
+                inbounds=True,
+                name="str_ptr"
+            )
+                # 3. Call printf
+            self.builder.call(
+                self.printf_func,
+                [str_ptr,self.visit(node.expr)],
+                name="print_call"
+            )
+       
 
-        # 3. Call printf
-        self.builder.call(
-            self.printf_func,
-            [str_ptr],
-            name="print_call"
-        )
+        
         
     
     def visit_IfNode(self, node): 
