@@ -63,25 +63,25 @@ def main():
     raw_llvm_ir = ir_generator.generate(ast)
 
     # Save raw IR
-    with open("output_raw.ll", "w", encoding="utf-8") as f:
+    with open("output_20.ll", "w", encoding="utf-8") as f:
         f.write(raw_llvm_ir)
 
-    print("3. جاري تشغيل مدير تمريرات التحسين (Pass Manager)...")
-    initialize_llvm()
+    # print("3. جاري تشغيل مدير تمريرات التحسين (Pass Manager)...")
+    # initialize_llvm()
 
-    try:
-        optimized_ir = optimize_ir(raw_llvm_ir)
+    # try:
+    #     optimized_ir = optimize_ir(raw_llvm_ir)
 
-        # Save optimized IR
-        with open("output_opt.ll", "w", encoding="utf-8") as f:
-            f.write(optimized_ir)
+    #     # Save optimized IR
+    #     with open("output_opt.ll", "w", encoding="utf-8") as f:
+    #         f.write(optimized_ir)
 
-        print(
-            "✅ تم تحسين الكود بنجاح! قارن بين output_raw.ll و output_opt.ll"
-        )
+    #     print(
+    #         "✅ تم تحسين الكود بنجاح! قارن بين output_raw.ll و output_opt.ll"
+    #     )
 
-    except Exception as e:
-        print(f"❌ حدث خطأ أثناء التحسين: {e}")
+    # except Exception as e:
+    #     print(f"❌ حدث خطأ أثناء التحسين: {e}")
 
 if __name__ == '__main__':
     main()
