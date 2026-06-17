@@ -9,6 +9,46 @@ from backend.ir_generator import IRGeneratorVisitor
 
 import llvmlite.binding as llvm
 
+import subprocess
+import platform
+import os
+
+def link_and_run(obj_filename="output.o", runtime_filename="runtime.c"):
+    # 1. تحديد اسم الملف التنفيذي بناءً على نظام التشغيل
+    exe_name = "MyArabicApp.exe" if platform.system() == "Windows" else "./MyArabicApp"
+
+    print(f"\n6. جاري استدعاء الرابط (Linker) لدمج {obj_filename} مع {runtime_filename}...")
+    try:
+        # 2. بناء أمر المترجم/الرابط (استخدام gcc كمحرك ربط)
+        # الأمر يعادل: gcc output.o runtime.c -o MyArabicApp
+        link_command = ["gcc", obj_filename, runtime_filename, "-o", exe_name]
+
+        # 3. تنفيذ الأمر في الخلفية
+        subprocess.run(link_command, check=True)
+        print(f"\n✅تم توليد الملف التنفيذي بنجاح: {exe_name}")
+
+        # 4. تشغيل البرنامج العربي الذي صنعناه للتو!
+        print("\n7. جاري تشغيل البرنامج العربي...")
+        print("=" * 40)
+
+        # التقاط المخرجات وطباعتها
+        result = subprocess.run([exe_name] if platform.system() == "Windows" else [exe_name],
+                                capture_output=True, text=True, encoding='utf-8')
+
+        # طباعة ما ولده برنامجنا العربي
+        print(result.stdout)
+
+        # طباعة أي أخطاء إن وجدت
+        if result.stderr:
+            print("أخطاء:", result.stderr)
+
+        print("=" * 40)
+
+    except subprocess.CalledProcessError as e:
+        print(f"\n❌فشل الرابط في توليد الملف التنفيذي. تأكد من صحة كود C: {e}")
+    except FileNotFoundError:
+        print("\n❌أداة gcc غير متوفرة! يرجى تثبيت MinGW (لويندوز) أو GCC (للينكس/ماك).")
+
 def initialize_llvm():
     """Initialize LLVM with explicit target registration"""
     try:
@@ -27,23 +67,33 @@ def initialize_llvm():
 import llvmlite.binding as llvm
 
 def initialize_target_machine():
-    # 1. تهيئة المحرك األساسي ومعمارية الحاسوب المحلي
-    # llvm.initialize()
+    # 1. تهيئة المحرك الأساسي ومعمارية الحاسوب المحلي
     llvm.initialize_native_target()
-    llvm.initialize_native_asmprinter()  # ضروري لطباعة كود التجميع (Assembly)
+    llvm.initialize_native_asmprinter()
 
-    # 2. استخراج الهدف الثالثي االفتراضي لجهازك (مثلاً: x86_64-pc-windows-msvc أو aarch64-apple-darwin)
+    # 2. استخراج الهدف الثلاثي الافتراضي لجهازك
     target_triple = llvm.get_default_triple()
     print(f"🎯المعمارية المستهدفة: {target_triple}")
 
     # 3. الحصول على كائن الهدف (Target) بناءً على النص
-    target = llvm.Target.from_default_triple()
+    target = llvm.Target.from_triple(target_triple)
 
-    # 4. إنشاء "آلة الهدف" (Target Machine) باالعتماد على اإلعدادات القياسية
-    target_machine = target.create_target_machine()
-
+    # 4. Create target machine with explicit relocation model
+    # Use "static" relocation model to avoid GOT references
+    target_machine = target.create_target_machine(
+        cpu='generic',
+        features='',
+        reloc='static',  # Changed from default to 'static'
+        codemodel='large'
+    )
+    
+    # Set the triple explicitly
+    target_machine.target_triple = target_triple
+    
+    print(f"Target machine triple set to: {target_machine.triple}")
+    print(f"Target machine data layout: {target_machine.target_data}")
+    
     return target_machine, target_triple
-
 
 def optimize_ir(raw_llvm_ir,target_machine, target_triple):
     """Optimize LLVM IR at O2 level using the new pass manager"""
@@ -57,8 +107,6 @@ def optimize_ir(raw_llvm_ir,target_machine, target_triple):
     pto = llvm.create_pipeline_tuning_options(speed_level=2)  # O2
     
     # 3. Create target machine
-    target = llvm.Target.from_default_triple()
-    target_machine = target.create_target_machine()
     print("target machine created for optimization:", target_machine.triple)
     # 4. Create PassBuilder and get ModulePassManager
     pass_builder = llvm.create_pass_builder(target_machine, pto)
@@ -83,47 +131,50 @@ def main():
     print("2. جاري توليد كود LLVM IR الخام...")
     ir_generator = IRGeneratorVisitor()
     raw_llvm_ir = ir_generator.generate(ast)
+    
+    # Initialize target machine ONCE
     target_machine, target_triple = initialize_target_machine()
+    
     # Save raw IR
     with open("output_raw_test.ll", "w", encoding="utf-8") as f:
         f.write(raw_llvm_ir)
 
     print("3. جاري تشغيل مدير تمريرات التحسين (Pass Manager)...")
-    initialize_llvm()
 
     try:
+        # Parse and setup the module
         mod = llvm.parse_assembly(raw_llvm_ir)
         mod.verify()
         mod.triple = target_triple
         mod.data_layout = str(target_machine.target_data)
-        # 2. Create pipeline tuning options
+        
+        # Create optimization pipeline
         pto = llvm.create_pipeline_tuning_options(speed_level=2)  # O2
         
-        # 3. Create target machine
-        target = llvm.Target.from_default_triple()
-        target_machine = target.create_target_machine()
-        print("target machine created for optimization:", target_machine.triple)
-        # 4. Create PassBuilder and get ModulePassManager
+        # Use the SAME target_machine for optimization
+        print(f"Optimizing with target: {target_machine.triple}")
+        
+        # Create PassBuilder and ModulePassManager
         pass_builder = llvm.create_pass_builder(target_machine, pto)
         pm = pass_builder.getModulePassManager()
         
-        # 5. Run optimizations
+        # Run optimizations
         pm.run(mod, pass_builder)
+        
+        # Emit assembly
         asm_code = target_machine.emit_assembly(mod)
         
-
-    
-        # Save optimized IR
-        with open("output_23.s", "w", encoding="utf-8") as f:
+        # Save optimized assembly
+        with open("output_24.s", "w", encoding="utf-8") as f:
             f.write(asm_code)
 
+        # Emit object file
         obj_data = target_machine.emit_object(mod)
-        with open("output_23.o", "wb") as f:
+        with open("output_24.o", "wb") as f:
             f.write(obj_data)
-        
-        print(
-            "✅ تم تحسين الكود بنجاح! قارن بين output_raw_test.ll و output_23.s"
-        )
+            
+        link_and_run(obj_filename="output_24.o", runtime_filename="runtime.c")
+        print("✅ تم تحسين الكود بنجاح! قارن بين output_raw_test.ll و output_24.s")
 
     except Exception as e:
         print(f"❌ حدث خطأ أثناء التحسين: {e}")

@@ -1,5 +1,5 @@
 ; ModuleID = "arabic_compiler_module"
-target triple = "x86_64-pc-windows-msvc"
+target triple = "unknown-unknown-unknown"
 target datalayout = ""
 
 declare i32 @"printf"(i8* %".1", ...)
@@ -9,35 +9,22 @@ declare void @"panic_div_zero"()
 define i32 @"main"()
 {
 entry:
-  %"س" = alloca i32
-  store i32 5, i32* %"س"
-  %"ص" = alloca i32
-  store i32 10, i32* %"ص"
-  %"ع" = alloca i32
-  %"س_val" = load i32, i32* %"س"
-  %"ص_val" = load i32, i32* %"ص"
-  %"addtmp" = add i32 %"س_val", %"ص_val"
-  store i32 %"addtmp", i32* %"ع"
-  %"مجهول" = alloca i32
-  store i32 999, i32* %"مجهول"
-  %"النتيجة" = alloca i32
-  %"ص_val.1" = load i32, i32* %"ص"
-  %"is_zero_trap" = icmp eq i32 %"ص_val.1", 0
-  br i1 %"is_zero_trap", label %"panic_block", label %"math_block"
-panic_block:
-  call void @"panic_div_zero"()
-  unreachable
-math_block:
-  %"divtmp" = sdiv i32 100, %"ص_val.1"
-  store i32 %"divtmp", i32* %"النتيجة"
-  %"str_ptr" = getelementptr inbounds [4 x i8], [4 x i8]* @".str_0", i32 0, i32 0
-  %"ع_val" = load i32, i32* %"ع"
-  %"print_call" = call i32 (i8*, ...) @"printf"(i8* %"str_ptr", i32 %"ع_val")
-  %"str_ptr.1" = getelementptr inbounds [4 x i8], [4 x i8]* @".str_1", i32 0, i32 0
-  %"النتيجة_val" = load i32, i32* %"النتيجة"
-  %"print_call.1" = call i32 (i8*, ...) @"printf"(i8* %"str_ptr.1", i32 %"النتيجة_val")
+  %"العمر" = alloca i32
+  store i32 25, i32* %"العمر"
+  %"السنة_القادمة" = alloca i32
+  %"العمر_val" = load i32, i32* %"العمر"
+  %"addtmp" = add i32 %"العمر_val", 1
+  store i32 %"addtmp", i32* %"السنة_القادمة"
+  %"str_ptr" = getelementptr inbounds [56 x i8], [56 x i8]* @".str_0", i32 0, i32 0
+  %"print_call" = call i32 (i8*, ...) @"printf"(i8* %"str_ptr")
+  %"str_ptr.1" = getelementptr inbounds [45 x i8], [45 x i8]* @".str_1", i32 0, i32 0
+  %"print_call.1" = call i32 (i8*, ...) @"printf"(i8* %"str_ptr.1")
+  %"str_ptr.2" = getelementptr inbounds [4 x i8], [4 x i8]* @".str_2", i32 0, i32 0
+  %"السنة_القادمة_val" = load i32, i32* %"السنة_القادمة"
+  %"print_call.2" = call i32 (i8*, ...) @"printf"(i8* %"str_ptr.2", i32 %"السنة_القادمة_val")
   ret i32 0
 }
 
-@".str_0" = private constant [4 x i8] c"%d\0a\00"
-@".str_1" = private constant [4 x i8] c"%d\0a\00"
+@".str_0" = private constant [56 x i8] c"\d8\a3\d9\87\d9\84\d8\a7 \d8\a8\d9\83 \d9\81\d9\8a \d9\84\d8\ba\d8\aa\d9\83 \d8\a7\d9\84\d8\b9\d8\b1\d8\a8\d9\8a\d8\a9\d8\a7\d9\84\d8\ae\d8\a7\d8\b5\d8\a9\0a\00"
+@".str_1" = private constant [45 x i8] c"\d8\b9\d9\85\d8\b1\d9\83 \d8\a7\d9\84\d8\b9\d8\a7\d9\85 \d8\a7\d9\84\d9\82\d8\a7\d8\af\d9\85 \d8\b3\d9\8a\d9\83\d9\88\d9\86\0a\00"
+@".str_2" = private constant [4 x i8] c"%d\0a\00"

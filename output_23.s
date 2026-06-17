@@ -1,42 +1,36 @@
+	.def	@feat.00;
+	.scl	3;
+	.type	0;
+	.endef
+	.globl	@feat.00
+.set @feat.00, 0
 	.file	"<string>"
-	.section	.ltext,"axl",@progbits
+	.def	main;
+	.scl	2;
+	.type	32;
+	.endef
+	.text
 	.globl	main
 	.p2align	4
-	.type	main,@function
 main:
 	pushq	%rsi
-	pushq	%rdi
-	subq	$40, %rsp
-.L0$pb:
-	leaq	.L0$pb(%rip), %rax
-	movabsq	$_GLOBAL_OFFSET_TABLE_-.L0$pb, %rsi
-	addq	%rax, %rsi
-	movabsq	$.L.str_0@GOTOFF, %rcx
-	addq	%rsi, %rcx
-	movabsq	$printf, %rdi
+	subq	$32, %rsp
+	movabsq	$.L.str_0, %rcx
+	movabsq	$printf, %rsi
 	movl	$15, %edx
-	callq	*%rdi
-	movabsq	$.L.str_1@GOTOFF, %rcx
-	addq	%rsi, %rcx
+	callq	*%rsi
+	movabsq	$.L.str_1, %rcx
 	movl	$10, %edx
-	callq	*%rdi
+	callq	*%rsi
 	xorl	%eax, %eax
-	addq	$40, %rsp
-	popq	%rdi
+	addq	$32, %rsp
 	popq	%rsi
 	retq
-.Lfunc_end0:
-	.size	main, .Lfunc_end0-main
 
-	.type	.L.str_0,@object
-	.section	.lrodata,"al",@progbits
+	.section	.rdata,"dr"
 .L.str_0:
 	.asciz	"%d\n"
-	.size	.L.str_0, 4
 
-	.type	.L.str_1,@object
 .L.str_1:
 	.asciz	"%d\n"
-	.size	.L.str_1, 4
 
-	.section	".note.GNU-stack","",@progbits
